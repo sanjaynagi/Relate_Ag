@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 7 of /home/sanj/ag1000g/Relate/Snakefile:
+Missing input files for rule all:
+data/shapeit/ag1000g.phase2.ar1.haplotypes.2L.biallelic.gz

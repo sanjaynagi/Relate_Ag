@@ -1,0 +1,36 @@
+Building DAG of jobs...
+Job counts:
+	count	jobs
+	1	all
+	1	prep_inputs
+	1	prep_lists
+	1	relate
+	4
+
+[Fri Apr 17 18:01:21 2020]
+rule prep_lists:
+    output: data/WAgam_filtered_SNPs_2L_pos, data/WAgam_2L_ox_codes, data/WAgam_2L.poplabels
+    log: logs/prep_inputs/prep_listfiles_2L.log
+    jobid: 3
+    wildcards: chrom=2L
+
+
+[Fri Apr 17 18:01:21 2020]
+rule prep_inputs:
+    input: data/shapeit/ag1000g.phase2.ar1.haplotypes.2L.gz, data/WAgam_filtered_SNPs_2L_pos, data/shapeit/ag1000g.phase2.ar1.samples.2L, data/WAgam_2L_ox_codes
+    output: data/haps/WAgam.2L.flt.haps.gz, data/samples/WAgam.2L.samples
+    log: logs/prep_inputs/prep_inputs_2L.log
+    jobid: 2
+    wildcards: chrom=2L
+
+
+[Fri Apr 17 18:01:21 2020]
+rule relate:
+    input: data/haps/WAgam.2L.flt.haps.gz, data/samples/WAgam.2L.samples, data/WAgam.poplabels, ../data/reference/recombination_maps/Ag_2L.map
+    output: WAgam_2L.mut
+    log: logs/Relate/EstimateAncestrees_2L.log
+    jobid: 1
+    wildcards: chrom=2L
+
+RuleException in line 41 of /home/sanj/ag1000g/Relate/Snakefile:
+'InputFiles' object has no attribute 'maps'

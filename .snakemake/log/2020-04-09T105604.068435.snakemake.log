@@ -1,0 +1,20 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	prep_files
+	2
+
+[Thu Apr  9 10:56:04 2020]
+rule prep_files:
+    input: data/shapeit/ag1000g.phase2.ar1.haplotypes.2L.gz
+    output: data/shapeit/ag1000g.phase2.ar1.haplotypes.2L.biallelic.haps
+    log: logs/formatting/remove_biallelic_2L.log
+    jobid: 1
+    wildcards: chrom=2L
+
+RuleException in line 11 of /home/sanj/ag1000g/Relate/Snakefile:
+NameError: The name 'chrom' is unknown in this context. Please make sure that you defined that variable. Also note that braces not used for variable access have to be escaped by repeating them, i.e. {{print $1}}

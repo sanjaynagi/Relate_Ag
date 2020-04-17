@@ -1,0 +1,3 @@
+NameError in line 23 of /home/sanj/ag1000g/Relate/Snakefile:
+name 'chrom' is not defined
+  File "/home/sanj/ag1000g/Relate/Snakefile", line 23, in <module>

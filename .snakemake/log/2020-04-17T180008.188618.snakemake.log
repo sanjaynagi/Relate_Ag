@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 41 of /home/sanj/ag1000g/Relate/Snakefile:
+Missing input files for rule relate:
+data/haps/WAgam.2L_samples

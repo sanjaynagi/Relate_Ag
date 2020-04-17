@@ -1,0 +1,8 @@
+Building DAG of jobs...
+MissingInputException in line 11 of /home/sanj/ag1000g/Relate/Snakefile:
+Missing input files for rule prep_lists:
+BFgam
+GHgam
+GAgam
+GNgam
+CMgam
