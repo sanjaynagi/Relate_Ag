@@ -16,9 +16,9 @@ rule prep_lists:
     log:
         "logs/prep_inputs/prep_listfiles_{chrom}.log"
     params:
-        pops = "['BFgam', 'GNgam', 'CMgam', 'GAgam', 'GHgam']",#config['pops']['WAgam'],
+        samples = config['samples']
     shell:
-        "python analysis/scripts/prep_relate_lists.py --pops {params.pops} --name WAgam --samples config['samples'] --chrom {chrom}" 
+        "python analysis/scripts/prep_relate_lists.py --name WAgam --samples {params.samples} --chrom {chrom} 2> {log}" 
 
 rule prep_inputs:
     input:
@@ -27,15 +27,17 @@ rule prep_inputs:
         samples = "data/shapeit/ag1000g.phase2.ar1.samples.{chrom}",
         ox_codes = "data/WAgam_{chrom}_ox_codes"
     output:
-        haps = "data/haps/WAgam.{chrom}.flt.haps.gz",
+        haps = "data/haps/WAgam.{chrom}.flt.haps",
         samples = "data/samples/WAgam.{chrom}.samples"
+        hapsgz = "data/haps/WAgam.{chrom}.flt.haps.gz"
     log: 
         "logs/prep_inputs/prep_inputs_{chrom}.log"
     shell:
         """
-        zgrep -w -F -f {input.snp_selection} {input.haps} |
-        qctool_v2.0.7 -filetype shapeit_haplotypes -g - -s {input.samples} -incl-samples lists/WAgam_ox_codes -og {output.haps} -ofiletype shapeit_haplotypes
-        zgrep -w -F -f {input.ox_codes} {input.samples} > {output.samples}
+        zgrep -w -F -f {input.snp_selection} {input.haps} > {output.haps}
+        qctool_v2.0.7 -filetype shapeit_haplotypes -g  -s {input.samples} -incl-samples lists/WAgam_ox_codes -og {output.haps} -ofiletype shapeit_haplotypes 2> {log}
+        zgrep -w -F -f {input.ox_codes} {input.samples} > {output.samples} 2> {log}
+        gzip {output.haps} > {output.hapsgz}
         """
 
 rule relate:
@@ -45,7 +47,7 @@ rule relate:
         poplabels = "data/WAgam.poplabels",
         maps = config['maps'][chrom]
     output:
-        "WAgam_{chrom}.mut"
+        "analysis/WAgam_{chrom}.mut"
     params:
         m = 5.5e-9,
         Ne = 20000,
@@ -53,9 +55,31 @@ rule relate:
     log:
         "logs/Relate/EstimateAncestrees_{chrom}.log"
     shell:
-        "Relate --mode All -m {params.m} -N {params.Ne} --haps {input.haps} --sample {input.samples} --map {input.maps} -o {params.o_prefix}"
+        """
+        Relate --mode All -m {params.m} -N {params.Ne} --haps {input.haps} --sample {input.samples} --map {input.maps} -o {params.o_prefix} 2> {log}
+        RelateFileFormats --mode GenerateSNPAnnotations --haps {input.haps} --sample {input.samples} --mut {output} --poplabels {input.poplabels} -o {params.o_prefix} 2> {log}
+        """
 
 
+rule demography:
+    input:
+        i_prefix = 'analysis/WAgam_{chrom}', 
+        poplabels = "data/WAgam.poplabels"
+    output:
+        analysis/demography/WAgam_{chrom}.mut.gz
+    log:
+        "logs/Relate_demography/EstimatePopulationSize.log"
+    params:
+        m = 5.5e-9
+        threshold = 0
+        years_per_gen = 0.1
+        prefix = analysis/demography/WAgam_{chrom}
+    threads:
+        8
+    shell:
+        """
+        analysis/scripts/EstimatePopulationSize/EstimatePopulationSize.sh -i {input.i_prefix} -o {output.prefix} -m {params.m} --poplabels {input.poplabels}
+        --threshold {params.threshold} --years_per_gen {params.years_per_gen} --threads {threads} 2> {log}
+        """
 
-#rule demography:
 #rule selection:

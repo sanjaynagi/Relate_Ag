@@ -6,7 +6,7 @@ import pandas as pd
 import zarr
 import allel
 import argparse
-import sweep_tools
+from sweep_tools import *
 
 parser = argparse.ArgumentParser(description='Take Zarr, downsample and convert to .dat for LDNe')
 parser.add_argument('--pops', type=str, action='store', default=['BFgam'], help='Populations to include')
@@ -18,9 +18,9 @@ args=parser.parse_args()
 ### store arguments 
 chrom = args.chrom
 samples = pd.read_csv(args.samples, sep="\t")
-pops = args.pops 
 popname = args.name
 
+pops = ['GNgam', 'GHgam', 'CMgam', 'GAgam', 'BFgam']
 ### read in hap array and positions
 haps, pop_bool, sweep_region, pos = get_haplos(pops, chrom, 0, 55000000, samples, biallelic=False)
 
@@ -46,7 +46,7 @@ else:
     df_samples = samples[samples.population.isin(pops)]
 
 #write ox codes to csv
-df_samples.ox_codes.to_csv(f"data/{popname}_{chrom}_ox_codes")
+df_samples.ox_code.to_csv(f"data/{popname}_{chrom}_ox_codes", index=False)
 
 #change male female coding and write .poplabels file
 poplabels = df_samples.iloc[:,[0,2,2,9]]
