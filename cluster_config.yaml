@@ -27,16 +27,27 @@ haps:
     'data/haplotypes/ag1000g.phase2.ar1.haplotypes.3R.gz'
   X:
     'data/haplotypes/ag1000g.phase2.ar1.haplotypes.X.gz'
+samples:
+  2L:
+    'data/samples/ag1000g.phase2.ar1.samples.2L.gz'
+  2R:
+    'data/samples/ag1000g.phase2.ar1.samples.2R.gz'
+  3L:
+    'data/samples/ag1000g.phase2.ar1.samples.3L.gz'
+  3R:
+    'data/samples/ag1000g.phase2.ar1.samples.3R.gz'
+  X:
+    'data/samples/ag1000g.phase2.ar1.samples.X.gz'
 maps:
   2L:
-    '/reference/recombination_maps/Ag_2L.map'
+    'data/recombination_maps/Ag_2L.map'
   2R:
-    '../reference/recombination_maps/Ag_2R.map'
+    'data/recombination_maps/Ag_2R.map'
   3L:
-   '../reference/recombination_maps/Ag_3L.map'
+   'data/recombination_maps/Ag_3L.map'
   3R:
-   '../reference/recombination_maps/Ag_3R.map'
+   'data/recombination_maps/Ag_3R.map'
   X:
-   '../reference/recombination_maps/Ag_X.map'
-samples:
+   'data/recombination_maps/Ag_X.map'
+sample_meta:
   'data/samples.meta.txt'

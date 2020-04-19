@@ -12,17 +12,18 @@ parser = argparse.ArgumentParser(description='Take Zarr, downsample and convert 
 parser.add_argument('--pops', type=str, action='store', default=['BFgam'], help='Populations to include')
 parser.add_argument('--name', type=str, action='store', default='BFgam', help='Populations name')
 parser.add_argument('--samples', type=str, action='store', help='Tab-delimited Samples metadata file')
+parser.add_argument('--zarr', type=str, action='store', help='Path to Zarr files')
 parser.add_argument('--chrom', type=str, action='store', default=['3L','3R'], help='Which chromosomes to use')
 args=parser.parse_args()
 
-### store arguments 
+### store arguments
 chrom = args.chrom
 samples = pd.read_csv(args.samples, sep="\t")
 popname = args.name
 
 pops = ['GNgam', 'GHgam', 'CMgam', 'GAgam', 'BFgam']
 ### read in hap array and positions
-haps, pop_bool, sweep_region, pos = get_haplos(pops, chrom, 0, 55000000, samples, biallelic=False)
+haps, pop_bool, sweep_region, pos = get_haplos(pops, chrom, 0, 55000000, samples, biallelic=False, zarrpath=args.zarr)
 
 #count alleles and find bi_allelic SNPs and non-singletons
 ac = haps.count_alleles()
