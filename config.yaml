@@ -1,10 +1,10 @@
-pops:
+groups:
   BFgam:
-    ['BFgam']
+    pops: ['BFgam']
   WAgam:
-    ['BFgam', 'GNgam', 'CMgam', 'GAgam', 'GHgam']
+    pops: ['BFgam', 'GNgam', 'CMgam', 'GAgam', 'GHgam']
   WAcol:
-    ['BFcol', 'GNcol', 'CIcol', 'GHcol']
+    pops: ['BFcol', 'GNcol', 'CIcol', 'GHcol']
 zarr:
   2L:
     '../data/ag1000g.phase2.ar1.pass/2L/'
@@ -18,25 +18,36 @@ zarr:
     '../data/ag1000g.phase2.ar1.pass/X/'
 haps:
   2L:
-    'data/shapeit/ag1000g.phase2.ar1.haplotypes.2L.gz'
+    'data/haplotypes/ag1000g.phase2.ar1.haplotypes.2L.gz'
   2R:
-    'data/shapeit/ag1000g.phase2.ar1.haplotypes.2R.gz'
+    'data/haplotypes/ag1000g.phase2.ar1.haplotypes.2R.gz'
   3L:
-    'data/shapeit/ag1000g.phase2.ar1.haplotypes.3L.gz'
+    'data/haplotypes/ag1000g.phase2.ar1.haplotypes.3L.gz'
   3R:
-    'data/shapeit/ag1000g.phase2.ar1.haplotypes.3R.gz'
+    'data/haplotypes/ag1000g.phase2.ar1.haplotypes.3R.gz'
   X:
-    'data/shapeit/ag1000g.phase2.ar1.haplotypes.X.gz'
+    'data/haplotypes/ag1000g.phase2.ar1.haplotypes.X.gz'
+samples:
+  2L:
+    'data/samples/ag1000g.phase2.ar1.samples.2L.gz'
+  2R:
+    'data/samples/ag1000g.phase2.ar1.samples.2R.gz'
+  3L:
+    'data/samples/ag1000g.phase2.ar1.samples.3L.gz'
+  3R:
+    'data/samples/ag1000g.phase2.ar1.samples.3R.gz'
+  X:
+    'data/samples/ag1000g.phase2.ar1.samples.X.gz'
 maps:
   2L:
-    '../data/reference/recombination_maps/Ag_2L.map'
+    'data/recombination_maps/Ag_2L.map'
   2R:
-    '../data/reference/recombination_maps/Ag_2R.map'
+    'data/recombination_maps/Ag_2R.map'
   3L:
-   '../data/reference/recombination_maps/Ag_3L.map'
+   'data/recombination_maps/Ag_3L.map'
   3R:
-   '../data/reference/recombination_maps/Ag_3R.map'
+   'data/recombination_maps/Ag_3R.map'
   X:
-   '../data/reference/recombination_maps/Ag_X.map'
-samples:
-  '../data/samples.meta.txt'
+   'data/recombination_maps/Ag_X.map'
+sample_meta:
+  'data/samples.meta.txt'
