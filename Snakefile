@@ -9,7 +9,7 @@ rule all:
     input:
         expand("analysis/demography/WAgam_{chrom}.mut.gz", chrom=chroms)
 
-rule prep_lists:
+rule prep_sample_lists:
     input:
         zarr = config['zarr'][chrom]
     output:
@@ -33,17 +33,18 @@ rule prep_inputs:
         samples = "data/samples/WAgam.{chrom}.samples",
         hapsgz = "data/haps/WAgam.{chrom}.flt.haps.gz"
     params:
-        haps = "data/haps/WAgam.{chrom}.flt.haps"
+        haps = "data/haps/WAgam.{chrom}.haps",
+	hapsflt = "data/haps/WAgam.{chrom}.flt.haps"
     log: 
        zgrep =  "logs/prep_inputs/prep_inputs_{chrom}.log",
        qctool = "logs/prep_inputs/qctools_remove_samples_{chrom}.log"
     shell:
         """
         zgrep -w -F -f {input.snp_selection} {input.haps} > {params.haps} 2> {log.zgrep}
-        qctool_v2.0.7 -filetype shapeit_haplotypes -g  -s {input.samples} -incl-samples {input.ox_codes} -og {params.haps} -ofiletype shapeit_haplotypes 2> {log.qctool}
+        qctool_v2.0.7 -filetype shapeit_haplotypes -g {params.haps} -s {input.samples} -incl-samples {input.ox_codes} -og {params.hapsflt} -ofiletype shapeit_haplotypes 2> {log.qctool}
+	awk '{{$1=""}}1' {params.hapsflt} | gzip 2>> {log.qctool}
         zgrep -w -F -f {input.ox_codes} {input.samples} > {output.samples} 2> {log.zgrep} 
         echo -e 'ID1\tID2\tmissing\n0\t0\t0' > header.samples & cat header.samples {output.samples} > b; mv b {output.samples}
-        gzip {params.haps}
         """
 
 rule Relate:

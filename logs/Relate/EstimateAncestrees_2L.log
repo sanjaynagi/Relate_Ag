@@ -16,4 +16,3 @@ with mu = 5.5e-09 and 2Ne = 20000.
 
 ---------------------------------------------------------
 Parsing data..
-Relate: /users/myers/speidel/Documents/genomics/relate/include/src/data.cpp:516: void haps::ReadSNP(std::vector<char, std::allocator<char> >&, int&): Assertion `it_seq == sequence.end()' failed.
