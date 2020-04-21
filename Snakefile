@@ -36,13 +36,15 @@ rule prep_inputs:
         haps = "data/haps/WAgam.{chrom}.haps",
 	hapsflt = "data/haps/WAgam.{chrom}.flt.haps"
     log: 
-       zgrep =  "logs/prep_inputs/prep_inputs_{chrom}.log",
-       qctool = "logs/prep_inputs/qctools_remove_samples_{chrom}.log"
+        zgrep =  "logs/prep_inputs/prep_inputs_{chrom}.log",
+        qctool = "logs/prep_inputs/qctools_remove_samples_{chrom}.log",
+        gzip = "logs/prep_inputs/gzip_{chrom}.log"
     shell:
         """
         zgrep -w -F -f {input.snp_selection} {input.haps} > {params.haps} 2> {log.zgrep}
         qctool_v2.0.7 -filetype shapeit_haplotypes -g {params.haps} -s {input.samples} -incl-samples {input.ox_codes} -og {params.hapsflt} -ofiletype shapeit_haplotypes 2> {log.qctool}
-	awk '{{$1=""}}1' {params.hapsflt} | gzip 2>> {log.qctool}
+	awk '{{$1=""}}1' {params.hapsflt} > {params.haps} 2> {log.qctool}
+	gzip -c {params.haps} > {output.hapsgz} 2> {log.gzip} && rm {params.haps}
         zgrep -w -F -f {input.ox_codes} {input.samples} > {output.samples} 2> {log.zgrep} 
         echo -e 'ID1\tID2\tmissing\n0\t0\t0' > header.samples & cat header.samples {output.samples} > b; mv b {output.samples}
         """
