@@ -1,6 +1,8 @@
 pops:
   BFgam:
     ['BFgam']
+  UGgam:
+    ['UGgam']
   WAgam:
     ['BFgam', 'GNgam', 'CMgam', 'GAgam', 'GHgam']
   WAcol:
