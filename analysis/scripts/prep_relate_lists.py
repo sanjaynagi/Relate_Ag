@@ -8,7 +8,7 @@ import allel
 import argparse
 from sweep_tools import *
 
-parser = argparse.ArgumentParser(description='Take Zarr, downsample and convert to .dat for LDNe')
+parser = argparse.ArgumentParser(description='Prepare files for Relate to infer whole-genome geneaologies')
 parser.add_argument('--pops', type=str, action='store', default=['BFgam'], help='Populations to include')
 parser.add_argument('--name', type=str, action='store', default='BFgam', help='Populations name')
 parser.add_argument('--samples', type=str, action='store', help='Tab-delimited Samples metadata file')
@@ -21,7 +21,9 @@ chrom = args.chrom
 samples = pd.read_csv(args.samples, sep="\t")
 popname = args.name
 
-pops = ['GNgam', 'GHgam', 'CMgam', 'GAgam', 'BFgam']
+print("-------------------- RelateAg - Sanjay C Nagi --------------------")
+
+pops = [args.pops]
 ### read in hap array and positions
 haps, pop_bool, sweep_region, pos = get_haplos(pops, chrom, 0, 55000000, samples, biallelic=False, zarrpath=args.zarr)
 
@@ -38,11 +40,12 @@ pos_ = pos[bial_]
 print("After filtering, there are", len(pos_), f"SNPs remaining for {pops} and {chrom}")
 
 ## write file with biallelic SNP positions
-pd.Series(pos_).to_csv(f'data/{popname}_filtered_SNPs_{chrom}_pos', index=False)
+pd.Series(pos_).to_csv(f'data/{popname}_{chrom}_filtered_SNPs_pos', index=False)
 
+print("Writing SNPS, .poplabels, ox_codes")
 
-if len(pops) == 1:
-    df_samples = samples[samples.population == pops]
+if len(pops[0]) == 1:
+    df_samples = samples[samples.population == pops[0]]
 else:
     df_samples = samples[samples.population.isin(pops)]
 

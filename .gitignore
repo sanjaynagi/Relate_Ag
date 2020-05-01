@@ -1,2 +1,7 @@
 data/
 .snakemake/
+UGgam*
+analysis/demography
+analysis/UGgam
+analysis/selection
+analysis/BFgam

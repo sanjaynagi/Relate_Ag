@@ -1,0 +1,16 @@
+analysis/scripts/prep_relate_lists.py:43: FutureWarning: The signature of `Series.to_csv` was aligned to that of `DataFrame.to_csv`, and argument 'header' will change its default value from False to True: please pass an explicit value to suppress this warning.
+  pd.Series(pos_).to_csv(f'data/{popname}_{chrom}_filtered_SNPs_pos', index=False)
+analysis/scripts/prep_relate_lists.py:53: FutureWarning: The signature of `Series.to_csv` was aligned to that of `DataFrame.to_csv`, and argument 'header' will change its default value from False to True: please pass an explicit value to suppress this warning.
+  df_samples.ox_code.to_csv(f"data/{popname}_{chrom}_ox_codes", index=False)
+analysis/scripts/prep_relate_lists.py:59: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  poplabels['sex'] = poplabels.sex.map(di)
+analysis/scripts/prep_relate_lists.py:60: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  poplabels['group'] = popname
